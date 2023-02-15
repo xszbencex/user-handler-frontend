@@ -1,0 +1,20 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <ng-container *ngIf="global.isLoggedInStatus; else notLoggedIn">
+    <a [routerLink]="'/home'">
+      <button mat-button>
+        <mat-icon>home</mat-icon>
+        Főoldal
+      </button>
+    </a>
+    <span class="spacer"></span>
+    <span>{{global.loggedInAccount?.username}} ({{global.loggedInAccount?.roles?.includes(roles.ROLE_ADMIN) ? 'admin' : 'kliens'}})</span>
+    <button mat-button (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Kilépés
+    </button>
+  </ng-container>
+
+  <ng-template #notLoggedIn>
+    <span>Interjú feladat</span>
+  </ng-template>
+</mat-toolbar>

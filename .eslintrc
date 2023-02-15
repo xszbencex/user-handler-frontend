@@ -1,0 +1,112 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "node_modules/**/*",
+    "dist/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "indent": ["warn",2,
+          {
+            "FunctionDeclaration": {
+              "body": 1
+            },
+            "SwitchCase": 1,
+            "FunctionExpression": {
+              "body": 1
+            }
+          }
+        ],
+        "@typescript-eslint/naming-convention": [
+          "warn",
+          {
+            "selector": "variable",
+            "format": ["camelCase", "UPPER_CASE"]
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "style": "kebab-case"
+          }
+        ],
+        "@typescript-eslint/dot-notation": "warn",
+        "max-len": [
+          "error",
+          {
+            "ignorePattern": "^import [^,]+ from |^export | implements | `.{30,}`",
+            "code": 140
+          }
+        ],
+        "no-console": "error",
+        "space-before-function-paren": [
+          "warn",
+          {
+            "anonymous": "always",
+            "asyncArrow": "always",
+            "named": "never"
+          }
+        ],
+        "arrow-spacing": "warn",
+        "no-extra-semi": "error",
+        "prefer-const": "warn",
+        "comma-spacing": ["warn",
+          {
+            "before": false,
+            "after": true
+          }],
+        "func-call-spacing": ["warn", "never"],
+        "quotes": ["warn", "single",
+          {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+          }],
+        "semi": ["warn", "always"],
+        "no-multi-spaces": "warn",
+        "no-trailing-spaces": "warn",
+        "no-whitespace-before-property": "warn",
+        "no-unused-vars": ["warn",
+          {
+            "args": "after-used",
+            "caughtErrors": "all"
+          }],
+        "brace-style": [
+          "warn",
+          "1tbs"
+        ],
+        "no-redeclare": "error"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}

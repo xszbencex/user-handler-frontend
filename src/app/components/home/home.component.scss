@@ -1,0 +1,17 @@
+.tile-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tile {
+  cursor: pointer;
+  margin: 10px;
+}
+
+.tile:hover {
+  text-decoration: underline;
+}
+
+img {
+  width: 90%;
+}

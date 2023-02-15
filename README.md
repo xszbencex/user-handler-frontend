@@ -1,2 +1,2 @@
 # user-handler-frontend
-Angular frontend for interview excercise
+Angular frontend for interview exercise
