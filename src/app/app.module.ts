@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -25,10 +25,12 @@ import { LocalisationInitializer } from './shared/config/LocalisationInitializer
 import { LoginComponent } from './components/login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
-import { appInitProviders } from './shared/services/app-init.service';
+import { AppInitService } from './shared/services/app-init.service';
+import { JwtInterceptor } from './shared/config/JwtInterceptor';
+import { UserDialogComponent } from './components/home/user-dialog/user-dialog.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, HeaderComponent, LoginComponent, MessageDialogComponent],
+  declarations: [AppComponent, HomeComponent, HeaderComponent, LoginComponent, MessageDialogComponent, UserDialogComponent],
   imports: [
     HttpClientModule,
     FormsModule,
@@ -57,7 +59,13 @@ import { appInitProviders } from './shared/services/app-init.service';
       provide: MatPaginatorIntl,
       useFactory: () => new LocalisationInitializer().paginatorInitializer(),
     },
-    appInitProviders,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppInitService],
+      useFactory: (appInitService: AppInitService) => () => appInitService.init(),
+    },
   ],
   bootstrap: [AppComponent],
 })

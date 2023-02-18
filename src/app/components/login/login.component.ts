@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { GlobalService } from '../../shared/services/global.service';
 import { UserDTO } from '../../shared/models/UserDTO';
-import { LoginService } from '../../shared/services/login.service';
+import { UserService } from '../../shared/services/user.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -15,7 +15,7 @@ export class LoginComponent {
   isRegistration = false;
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private loginService: LoginService, private router: Router, public global: GlobalService) {
+  constructor(private formBuilder: FormBuilder, private loginService: UserService, private router: Router, public global: GlobalService) {
     if (global.isLoggedInStatus) {
       this.router.navigate(['/home']).then();
     }

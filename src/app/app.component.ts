@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { filter, map } from 'rxjs';
@@ -12,6 +12,12 @@ import { GlobalService } from './shared/services/global.service';
 export class AppComponent {
   constructor(private router: Router, private titleService: Title, private global: GlobalService, private activatedRoute: ActivatedRoute) {
     this.setHTMLTitle();
+    this.global.windowWidth = window.innerWidth;
+  }
+
+  @HostListener('window:resize')
+  onResize() {
+    this.global.windowWidth = window.innerWidth;
   }
 
   setHTMLTitle() {

@@ -1,12 +1,12 @@
-import { APP_INITIALIZER, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { GlobalService } from './global.service';
-import { LoginService } from './login.service';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInitService {
-  constructor(private global: GlobalService, private loginService: LoginService) {}
+  constructor(private global: GlobalService, private loginService: UserService) {}
 
   init(): Promise<any> {
     return new Promise<void>(async resolve => {
@@ -26,17 +26,9 @@ export class AppInitService {
             },
           })
           .add(() => resolve());
+      } else {
+        resolve();
       }
-      resolve();
     });
   }
 }
-
-export const appInitProviders = [
-  {
-    provide: APP_INITIALIZER,
-    multi: true,
-    deps: [AppInitService],
-    useFactory: (appInitService: AppInitService) => () => appInitService.init(),
-  },
-];

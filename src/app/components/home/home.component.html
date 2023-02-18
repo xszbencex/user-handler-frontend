@@ -1,51 +1,34 @@
 <div class="center">
   <p class="title">
-    Felhasználók
+    {{isAdmin ? "Felhasználók" : "Felhasználó adatok"}}
   </p>
 
-  <div class="mat-elevation-z8">
+  <div class="mat-elevation-z8" *ngIf="isAdmin; else client">
     <mat-table [dataSource]="userDataSource" multiTemplateDataRows matSort class="mat-table">
 
-      <ng-container matColumnDef="name">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Név</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Felhasználónév</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.username}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="brand">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Márka</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.brand.name}}</mat-cell>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="aspectRatio">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Képarány</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.aspectRatio}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="resolution">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Felbontás</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.resolution}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="panelType">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Panel típusa</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.panelType}}</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="refreshRate">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Képfrissítési frekvencia</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.refreshRate}} Hz</mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="displaySize">
-        <mat-header-cell *matHeaderCellDef mat-sort-header>Kijelző mérete</mat-header-cell>
-        <mat-cell *matCellDef="let element">{{element.displaySize}}"</mat-cell>
+      <ng-container matColumnDef="createdAt">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Létrehozva</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.createdAt | date: "yyyy. MM. dd. hh:mm:ss"}}</mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef>Műveletek</mat-header-cell>
         <mat-cell *matCellDef="let element">
-          <button mat-icon-button (click)="deleteUser(element.id)">
+          <button mat-icon-button (click)="deleteUser(element.id)" *ngIf="element.id !== global.loggedInAccount?.id">
             <mat-icon color="warn">delete</mat-icon>
+          </button>
+          <button mat-icon-button (click)="openDialog(element)">
+            <mat-icon>create</mat-icon>
           </button>
         </mat-cell>
       </ng-container>
@@ -56,4 +39,9 @@
     </mat-table>
     <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
   </div>
+
+  <ng-template #client>
+    <div>Felhasználónév: {{global.loggedInAccount?.username}}</div>
+    <div>Email: {{global.loggedInAccount?.email}}</div>
+  </ng-template>
 </div>

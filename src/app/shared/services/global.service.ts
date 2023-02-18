@@ -11,6 +11,7 @@ export class GlobalService {
   public isLoggedInStatus = false;
   public jwtToken?: string;
   public loggedInAccount?: UserResponseDTO;
+  windowWidth!: number;
 
   constructor(private router: Router, private dialog: MatDialog) {}
 

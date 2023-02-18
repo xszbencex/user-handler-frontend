@@ -1,6 +1,30 @@
 export type UserDTO = {
+  id: number;
   username: string;
   email: string;
   password: string;
   roles: [];
-}
+  active: boolean;
+  address: string;
+  created: string;
+  createdAt: Date | string;
+  deleted: string;
+  deletedAt: Date | string;
+  deletedFlag: string;
+  emailToken: string;
+  lastLogin: Date | string;
+  name: string;
+  nextLoginChangePwd: string;
+  passwordExpired: boolean;
+  phone: string;
+  settlementId: string;
+  tempPassword: string;
+  tempPasswordExpired: string;
+  updated: string;
+  updatedAt: Date | string;
+  userType: string;
+  settlementsBySettlementId: string;
+  userByCreatedId: string;
+  userByDeletedId: string;
+  userByUpdatedId: string;
+};

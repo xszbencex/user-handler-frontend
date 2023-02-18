@@ -3,8 +3,12 @@ import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { LoginService } from '../../shared/services/login.service';
+import { UserService } from '../../shared/services/user.service';
 import { UserDTO } from '../../shared/models/UserDTO';
+import { GlobalService } from '../../shared/services/global.service';
+import { Roles } from '../../shared/models/Roles';
+import { UserDialogComponent } from './user-dialog/user-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +16,30 @@ import { UserDTO } from '../../shared/models/UserDTO';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
-  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   userDataSource!: MatTableDataSource<UserDTO>;
-  displayedColumns: string[] = ['name', 'brand', 'aspectRatio', 'resolution', 'panelType', 'refreshRate', 'displaySize', 'actions'];
+  displayedColumns: string[] = ['username', 'email', 'createdAt', 'actions'];
+  isAdmin: boolean = false;
 
-  constructor(private userService: LoginService, private snackBar: MatSnackBar) {
-    this.initialization().then();
+  constructor(public global: GlobalService, private dialog: MatDialog, private userService: UserService, private snackBar: MatSnackBar) {
+    this.isAdmin = !!global.loggedInAccount?.roles?.includes(Roles.ADMIN);
+    if (this.isAdmin) {
+      this.initialization().then();
+    }
+  }
+
+  openDialog(user: UserDTO) {
+    this.dialog
+      .open(UserDialogComponent, { data: user, width: '700px' })
+      .afterClosed()
+      .subscribe((result: any) => {
+        if (result) {
+          this.initialization().then();
+          this.snackBar.open('User sikeresen módosítva!', 'Bezár', { duration: 2000 });
+        }
+      });
   }
 
   deleteUser(userId: number) {
